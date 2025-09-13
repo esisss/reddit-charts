@@ -12,6 +12,8 @@ interface SearchStore {
   setSearchSortBy: (value: SortOption) => void;
   searchOpen: boolean;
   setSearchOpen: (value: boolean) => void;
+  dropdownOpen: boolean;
+  setDropdownOpen: (value: boolean) => void;
 }
 
 export const useSearchStore = create<SearchStore>((set) => ({
@@ -23,4 +25,6 @@ export const useSearchStore = create<SearchStore>((set) => ({
   setSearchSortBy: (value) => set({ searchSortBy: value }),
   searchOpen: false,
   setSearchOpen: (value) => set({ searchOpen: value }),
+  dropdownOpen: false,
+  setDropdownOpen: (value) => set({ dropdownOpen: value }),
 }));

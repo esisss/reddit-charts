@@ -5,14 +5,19 @@ import "./SearchCategoryDropdown.css";
 import { useState } from "react";
 
 export const SearchCategoryDropdown = () => {
-  const { searchCategory, setSearchCategory, setSearchOpen } = useSearchStore();
-  const [open, setOpen] = useState(false);
+  const {
+    searchCategory,
+    setSearchCategory,
+    setSearchOpen,
+    dropdownOpen,
+    setDropdownOpen,
+  } = useSearchStore();
 
   return (
     <DropdownMenu.Root
-      open={open}
+      open={dropdownOpen}
       onOpenChange={(isOpen) => {
-        setOpen(isOpen);
+        setDropdownOpen(isOpen);
         setSearchOpen(isOpen);
       }}
     >
@@ -45,7 +50,6 @@ export const SearchCategoryDropdown = () => {
           <DropdownMenu.Item
             onClick={() => {
               setSearchCategory("u/");
-              setOpen(false);
             }}
             className="dropdown-item outline-none focus:outline-none py-1 cursor-pointer"
           >
@@ -64,7 +68,6 @@ export const SearchCategoryDropdown = () => {
           <DropdownMenu.Item
             onClick={() => {
               setSearchCategory("r/");
-              setOpen(false);
             }}
             className="dropdown-item outline-none focus:outline-none py-1 cursor-pointer"
           >
