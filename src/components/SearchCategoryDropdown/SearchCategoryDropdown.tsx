@@ -2,7 +2,6 @@ import { CheckIcon, ChevronDownIcon } from "@radix-ui/react-icons";
 import { DropdownMenu } from "radix-ui";
 import { useSearchStore } from "../../context/useSearchStore";
 import "./SearchCategoryDropdown.css";
-import { useState } from "react";
 
 export const SearchCategoryDropdown = () => {
   const {
@@ -36,8 +35,9 @@ export const SearchCategoryDropdown = () => {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="dropdown-content w-fit bg-white text-[#ff4400] font-bold rounded-lg shadow-2xl mt-3 p-2 flex flex-col items-start translate-x-5"
+          className="dropdown-content w-fit bg-white text-[#ff4400] font-bold rounded-lg shadow-2xl mt-3 p-2 flex flex-col items-start "
           sideOffset={5}
+          align="start"
         >
           <div
             className="absolute -z-0

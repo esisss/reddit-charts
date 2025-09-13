@@ -1,3 +1,4 @@
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { PostSortingFilter } from "../components/PostSortingFilter/PostSortingFilter";
 import { SearchBar } from "../components/SearchBar";
 import { useSearchStore } from "../context/useSearchStore";
@@ -10,7 +11,6 @@ export const Search = () => {
     searchSortBy,
     setSearchSortBy,
   } = useSearchStore();
-  useSearchStore();
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Implement search functionality with the selected sort option
@@ -27,15 +27,22 @@ export const Search = () => {
             onValueChange={(value) => setSearchSortBy(value)}
           />
         )}
+        {searchInputValue && (
+          <button
+            type="submit"
+            className="w-[285px] flex items-center justify-center mt-4 bg-[#ff4400] hover:bg-[#ff4000] text-white font-medium py-2 px-4 rounded-full transition-colors cursor-pointer active:bg-[#ff5e00] relative"
+            disabled={!searchInputValue.trim()}
+          >
+            <div className="absolute left-4">
+              <MagnifyingGlassIcon className="w-5 h-5" />
+            </div>
+            <span className="max-w-[calc(100%-40px)] ml-2 overflow-hidden text-ellipsis whitespace-nowrap">
+              {searchCategory}
+              {searchInputValue.trim()}
+            </span>
+          </button>
+        )}
       </div>
-
-      <button
-        type="submit"
-        className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-full transition-colors"
-        disabled={!searchInputValue.trim()}
-      >
-        Search r/{searchInputValue || "..."}
-      </button>
     </form>
   );
 };
