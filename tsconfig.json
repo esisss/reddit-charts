@@ -4,8 +4,9 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "strict": true,
-  "noImplicitAny": true,
-  "strictNullChecks": true,
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true
+  }
 }
-
