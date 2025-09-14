@@ -17,7 +17,7 @@ export const PostSortingFilter = ({
       type="single"
       value={value}
       onValueChange={(value: SortOption) => value && onValueChange(value)}
-      className="toggle-group"
+      className="toggle-group flex flex-row justify-center md:justify-between min-w-[300px]"
       aria-label="Sort posts by"
     >
       <ToggleGroup.Item

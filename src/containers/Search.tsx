@@ -18,30 +18,46 @@ export const Search = () => {
   };
   return (
     <form onSubmit={handleSearch} className="w-full max-w-2xl space-y-4">
-      <SearchBar />
-
       <div className="flex flex-col items-center gap-2">
-        {!dropdownOpen && searchCategory != "u/" && (
-          <PostSortingFilter
-            value={searchSortBy}
-            onValueChange={(value) => setSearchSortBy(value)}
-          />
-        )}
-        {searchInputValue && (
-          <button
-            type="submit"
-            className="w-[285px] flex items-center justify-center mt-4 bg-[#ff4400] hover:bg-[#ff4000] text-white font-medium py-2 px-4 rounded-full transition-colors cursor-pointer active:bg-[#ff5e00] relative"
-            disabled={!searchInputValue.trim()}
-          >
-            <div className="absolute left-4">
-              <MagnifyingGlassIcon className="w-5 h-5" />
+        <SearchBar />
+
+        <div className="w-full mt-2 flex items-center justify-center min-h-[42px]">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4 w-full md:max-w-[616px]">
+            <div
+              className={`transition-opacity duration-300 w-full max-w-[300px] ${
+                !dropdownOpen && searchCategory !== "u/"
+                  ? "opacity-100"
+                  : "opacity-0 hidden"
+              }`}
+            >
+              <PostSortingFilter
+                value={searchSortBy}
+                onValueChange={(value) => setSearchSortBy(value)}
+              />
             </div>
-            <span className="max-w-[calc(100%-40px)] ml-2 overflow-hidden text-ellipsis whitespace-nowrap">
-              {searchCategory}
-              {searchInputValue.trim()}
-            </span>
-          </button>
-        )}
+            <div
+              className={`transition-opacity duration-300 w-full max-w-[300px] ${
+                !dropdownOpen && searchInputValue
+                  ? "opacity-100"
+                  : "opacity-0 hidden"
+              }`}
+            >
+              <button
+                type="submit"
+                className="w-full flex items-center justify-center bg-[#ff4400] hover:bg-[#ff4000] text-white font-medium py-2 px-4 rounded-full transition-colors cursor-pointer active:bg-[#ff5e00] animate-fade-in motion-reduce-animate-none relative"
+                disabled={!searchInputValue?.trim()}
+              >
+                <div className="absolute left-4">
+                  <MagnifyingGlassIcon className="w-5 h-5" />
+                </div>
+                <span className="pl-6 pr-4 overflow-hidden text-ellipsis whitespace-nowrap">
+                  {searchCategory}
+                  {searchInputValue?.trim()}
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </form>
   );
