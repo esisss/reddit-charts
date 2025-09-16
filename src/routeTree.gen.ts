@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RSubredditSortRouteImport } from './routes/r/$subreddit.$sort'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RSubredditSortRoute = RSubredditSortRouteImport.update({
+  id: '/r/$subreddit/$sort',
+  path: '/r/$subreddit/$sort',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/r/$subreddit/$sort': typeof RSubredditSortRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/r/$subreddit/$sort': typeof RSubredditSortRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/r/$subreddit/$sort': typeof RSubredditSortRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/r/$subreddit/$sort'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/r/$subreddit/$sort'
+  id: '__root__' | '/' | '/r/$subreddit/$sort'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  RSubredditSortRoute: typeof RSubredditSortRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/r/$subreddit/$sort': {
+      id: '/r/$subreddit/$sort'
+      path: '/r/$subreddit/$sort'
+      fullPath: '/r/$subreddit/$sort'
+      preLoaderRoute: typeof RSubredditSortRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  RSubredditSortRoute: RSubredditSortRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
