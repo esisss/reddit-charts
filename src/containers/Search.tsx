@@ -2,6 +2,7 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { PostSortingFilter } from "../components/PostSortingFilter/PostSortingFilter";
 import { SearchBar } from "../components/SearchBar";
 import { useSearchStore } from "../context/useSearchStore";
+import { useNavigate } from "@tanstack/react-router";
 
 export const Search = () => {
   const {
@@ -11,10 +12,10 @@ export const Search = () => {
     searchSortBy,
     setSearchSortBy,
   } = useSearchStore();
+  const navigate = useNavigate({ from: window.location.pathname });
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement search functionality with the selected sort option
-    console.log(`Searching r/${searchInputValue} sorted by: ${searchSortBy}`);
+    navigate({ to: `/r/${searchInputValue}/${searchSortBy}` });
   };
   return (
     <form onSubmit={handleSearch} className="w-full max-w-2xl space-y-4">
