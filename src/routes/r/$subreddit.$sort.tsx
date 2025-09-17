@@ -1,7 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, redirect, useParams } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import * as z from "zod";
-import { SearchBar } from "../../components/SearchBar";
 import { Search } from "../../containers/Search";
 
 const subredditSchema = z.string().min(1);
@@ -26,38 +24,42 @@ export const Route = createFileRoute("/r/$subreddit/$sort")({
       });
     }
   },
+  loader: ({ context: { queryClient }, params: { subreddit, sort } }) => {
+    const data = queryClient.ensureQueryData({
+      queryKey: ["subreddit", subreddit, sort],
+      queryFn: async () => {
+        try {
+          const res = await fetch(
+            `https://www.reddit.com/r/${subreddit}/${sort}.json`,
+          );
+          return res.json();
+        } catch (error) {
+          console.error(
+            `Error fetching data from r/${subreddit}/${sort}`,
+            error,
+          );
+          throw error;
+        }
+      },
+    });
+    return data;
+  },
   errorComponent: () => {
     return <div>Invalid subreddit or sort option</div>;
   },
 });
 
 function RouteComponent() {
-  const { subreddit, sort } = useParams({
-    strict: true,
-    from: "/r/$subreddit/$sort",
-  });
-  const { isPending, error, data } = useQuery({
-    queryKey: ["subreddit", subreddit, sort],
-    queryFn: async () => {
-      const res = await fetch(
-        `https://www.reddit.com/r/${subreddit}/${sort}.json`,
-      );
-      return res.json();
-    },
-  });
+  const posts = Route.useLoaderData();
   return (
-    <div className="min-h-[100svh] w-screen ">
-      {isPending ? (
-        "Loading..."
-      ) : (
-        <div className="w-screen p-3 flex flex-col justify-center items-center gap-2">
-          <Search />
+    <div className="min-h-[100svh] bg-gray-900 text-white w-screen ">
+      <div className="w-screen p-3 flex flex-col justify-center items-center gap-2">
+        <Search />
 
-          {data?.data.children.map((post) => (
-            <div key={post.data.id}>{post.data.title}</div>
-          ))}
-        </div>
-      )}
+        {posts?.data.children.map((post) => (
+          <div key={post.data.id}>{post.data.title}</div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -34,6 +34,7 @@ export const Search = () => {
               <PostSortingFilter
                 value={searchSortBy}
                 onValueChange={(value) => setSearchSortBy(value)}
+                options={["hot", "new", "top", "rising", "best"]}
               />
             </div>
             <div

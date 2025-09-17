@@ -6,11 +6,13 @@ type SortOption = "hot" | "new" | "top" | "rising" | "best";
 interface PostSortingFilterProps {
   value: SortOption;
   onValueChange: (value: SortOption) => void;
+  options: SortOption[];
 }
 
 export const PostSortingFilter = ({
   value,
   onValueChange,
+  options,
 }: PostSortingFilterProps) => {
   return (
     <ToggleGroup.Root
@@ -20,41 +22,16 @@ export const PostSortingFilter = ({
       className="toggle-group flex flex-row justify-center md:justify-between min-w-[300px]"
       aria-label="Sort posts by"
     >
-      <ToggleGroup.Item
-        value="hot"
-        className="toggle-group-item"
-        title="Hot posts"
-      >
-        Hot
-      </ToggleGroup.Item>
-      <ToggleGroup.Item
-        value="new"
-        className="toggle-group-item"
-        title="New posts"
-      >
-        New
-      </ToggleGroup.Item>
-      <ToggleGroup.Item
-        value="top"
-        className="toggle-group-item"
-        title="Top posts"
-      >
-        Top
-      </ToggleGroup.Item>
-      <ToggleGroup.Item
-        value="rising"
-        className="toggle-group-item"
-        title="Rising posts"
-      >
-        Rising
-      </ToggleGroup.Item>
-      <ToggleGroup.Item
-        value="best"
-        className="toggle-group-item"
-        title="Best posts"
-      >
-        Best
-      </ToggleGroup.Item>
+      {options.map((option) => (
+        <ToggleGroup.Item
+          value={option}
+          className="toggle-group-item"
+          title={`Sort posts by ${option}`}
+          key={option}
+        >
+          {option}
+        </ToggleGroup.Item>
+      ))}
     </ToggleGroup.Root>
   );
 };
