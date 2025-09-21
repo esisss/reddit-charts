@@ -29,7 +29,6 @@ if (!rootElement.innerHTML) {
       <QueryClientProvider client={queryClient}>
         <Theme
           appearance="dark"
-          accentColor="#ff4400"
           grayColor="slate"
           panelBackground="translucent"
           radius="large"

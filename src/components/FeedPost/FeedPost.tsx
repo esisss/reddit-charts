@@ -1,5 +1,24 @@
 import React from "react";
 import { Badge, Box, Card, Flex, Heading, Text } from "@radix-ui/themes";
+
+export interface PostData {
+  data: {
+    id: string;
+    author: string;
+    created_utc: number;
+    title: string;
+    link_flair_text?: string;
+    over_18: boolean;
+    score: number;
+    num_comments: number;
+    permalink: string;
+    upvote_ratio?: number;
+  };
+}
+
+interface FeedPostProps {
+  post: PostData;
+}
 import timeAgo from "../../utils/timeAgo";
 import {
   AvatarIcon,
@@ -10,7 +29,7 @@ import {
   ThickArrowUpIcon,
 } from "@radix-ui/react-icons";
 
-export const FeedPost = ({ post }) => {
+export const FeedPost: React.FC<FeedPostProps> = ({ post }) => {
   return (
     <Box maxWidth="42rem" width="100%">
       <Card>

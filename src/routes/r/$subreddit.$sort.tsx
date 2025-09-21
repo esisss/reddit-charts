@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import * as z from "zod";
 import { Search } from "../../containers/Search";
-import { FeedPost } from "../../components/FeedPost/FeedPost";
+import { FeedPost, type PostData } from "../../components/FeedPost/FeedPost";
 const subredditSchema = z.string().min(1);
 const sortSchema = z.enum(["hot", "new", "top", "rising", "best"]);
 
@@ -56,7 +56,7 @@ function RouteComponent() {
       <div className="w-screen p-3 flex flex-col justify-center items-center gap-6">
         <Search />
 
-        {posts?.data.children.map((post) => (
+        {posts?.data.children.map((post: PostData) => (
           <FeedPost post={post} key={post.data.id} />
         ))}
       </div>
