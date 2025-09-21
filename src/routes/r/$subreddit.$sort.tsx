@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import * as z from "zod";
 import { Search } from "../../containers/Search";
-
+import { FeedPost } from "../../components/FeedPost/FeedPost";
 const subredditSchema = z.string().min(1);
 const sortSchema = z.enum(["hot", "new", "top", "rising", "best"]);
 
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/r/$subreddit/$sort")({
       queryFn: async () => {
         try {
           const res = await fetch(
-            `https://www.reddit.com/r/${subreddit}/${sort}.json`,
+            `https://www.reddit.com/r/${subreddit}/${sort}.json?limit=50`,
           );
           return res.json();
         } catch (error) {
@@ -53,11 +53,11 @@ function RouteComponent() {
   const posts = Route.useLoaderData();
   return (
     <div className="min-h-[100svh] bg-gray-900 text-white w-screen ">
-      <div className="w-screen p-3 flex flex-col justify-center items-center gap-2">
+      <div className="w-screen p-3 flex flex-col justify-center items-center gap-6">
         <Search />
 
         {posts?.data.children.map((post) => (
-          <div key={post.data.id}>{post.data.title}</div>
+          <FeedPost post={post} key={post.data.id} />
         ))}
       </div>
     </div>

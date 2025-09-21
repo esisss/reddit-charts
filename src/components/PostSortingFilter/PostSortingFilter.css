@@ -2,9 +2,11 @@
   display: flex;
   gap: 0.25rem;
   padding: 0.25rem;
-  background-color: #ff4400;
+  background-color: transparent;
+  backdrop-filter: blur(5px);
   border-radius: 9999px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 0.5px rgba(128, 128, 128, 0.36) solid;
 }
 
 .toggle-group-item {
@@ -36,8 +38,8 @@
   z-index: 0;
 }
 .toggle-group-item[data-state="on"] {
-  color: #ff4400;
-  background-color: white;
+  color: white;
+  background-color: #ff4400;
 }
 .toggle-group-item[data-state="off"]:hover {
   transform: translateY(-1px);

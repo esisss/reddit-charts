@@ -1,6 +1,32 @@
 @import "tailwindcss";
+@import "@radix-ui/themes/styles.css";
+
 #root {
   margin: 0;
   padding: 0;
-  background-color: #e0dcd0;
+  background-color: #101828;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+:root {
+  /* Base colors */
+  --gray-1: #fcfcfc;
+  --gray-12: #1a1a1a;
+
+  /* Theme colors */
+  --accent-9: #ff4400;
+
+  /* Background colors */
+  --color-background: var(--gray-1);
+  --color-panel: #ffffff;
+  --color-panel-solid: #f8f9fa;
+  --color-panel-translucent: rgba(255, 255, 255, 0.8);
+}
+
+/* Dark mode */
+[data-accent-color="dark"] {
+  --color-background: #0a0a0a;
+  --color-panel: #1a1a1a;
+  --color-panel-solid: #1a1a1a;
+  --color-panel-translucent: rgba(26, 26, 26, 0.8);
 }

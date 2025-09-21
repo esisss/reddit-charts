@@ -2,7 +2,7 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { PostSortingFilter } from "../components/PostSortingFilter/PostSortingFilter";
 import { SearchBar } from "../components/SearchBar";
 import { useSearchStore } from "../context/useSearchStore";
-import { useNavigate } from "@tanstack/react-router";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 
 export const Search = () => {
   const {
@@ -17,6 +17,7 @@ export const Search = () => {
     e.preventDefault();
     navigate({ to: `/r/${searchInputValue}/${searchSortBy}` });
   };
+  const location = useLocation();
   return (
     <form onSubmit={handleSearch} className="w-full max-w-2xl space-y-4">
       <div className="flex flex-col items-center gap-2">
@@ -33,7 +34,18 @@ export const Search = () => {
             >
               <PostSortingFilter
                 value={searchSortBy}
-                onValueChange={(value) => setSearchSortBy(value)}
+                onValueChange={(value) => {
+                  if (location.pathname.split("/")[1] === "r") {
+                    if (value != location.pathname.split("/")[3]) {
+                      const newPath = location.pathname.replace(
+                        location.pathname.split("/")[3],
+                        value,
+                      );
+                      navigate({ to: newPath, replace: true });
+                    }
+                  }
+                  setSearchSortBy(value);
+                }}
                 options={["hot", "new", "top", "rising", "best"]}
               />
             </div>
