@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { Badge, Box, Card, Flex, Heading, Text } from "@radix-ui/themes";
 
 export interface PostData {
@@ -30,6 +31,8 @@ import {
 } from "@radix-ui/react-icons";
 
 export const FeedPost: React.FC<FeedPostProps> = ({ post }) => {
+  const navigate = useNavigate();
+
   return (
     <Box maxWidth="42rem" width="100%">
       <Card>
@@ -74,7 +77,10 @@ export const FeedPost: React.FC<FeedPostProps> = ({ post }) => {
                 </span>
               )}
             </div>
-            <button className="w-[140px] p-1 flex items-center justify-center gap-1 rounded-lg bg-gray-900 border-[1px] border-[#8080805C]">
+            <button
+              onClick={() => navigate({ to: post.data.permalink })}
+              className="w-[140px] p-1 flex items-center justify-center gap-1 rounded-lg bg-gray-900 border-[1px] border-[#8080805C]"
+            >
               <PieChartIcon className="w-4 h-4 inline" />{" "}
               <span className="text-sm">View Stats</span>
             </button>

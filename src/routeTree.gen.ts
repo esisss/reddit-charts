@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RSubredditSortRouteImport } from './routes/r/$subreddit.$sort'
+import { Route as RSubredditCommentsIdTitleRouteImport } from './routes/r/$subreddit.comments.$id.$title'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,45 @@ const RSubredditSortRoute = RSubredditSortRouteImport.update({
   path: '/r/$subreddit/$sort',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RSubredditCommentsIdTitleRoute =
+  RSubredditCommentsIdTitleRouteImport.update({
+    id: '/r/$subreddit/comments/$id/$title',
+    path: '/r/$subreddit/comments/$id/$title',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/r/$subreddit/$sort': typeof RSubredditSortRoute
+  '/r/$subreddit/comments/$id/$title': typeof RSubredditCommentsIdTitleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/r/$subreddit/$sort': typeof RSubredditSortRoute
+  '/r/$subreddit/comments/$id/$title': typeof RSubredditCommentsIdTitleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/r/$subreddit/$sort': typeof RSubredditSortRoute
+  '/r/$subreddit/comments/$id/$title': typeof RSubredditCommentsIdTitleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/r/$subreddit/$sort'
+  fullPaths: '/' | '/r/$subreddit/$sort' | '/r/$subreddit/comments/$id/$title'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/r/$subreddit/$sort'
-  id: '__root__' | '/' | '/r/$subreddit/$sort'
+  to: '/' | '/r/$subreddit/$sort' | '/r/$subreddit/comments/$id/$title'
+  id:
+    | '__root__'
+    | '/'
+    | '/r/$subreddit/$sort'
+    | '/r/$subreddit/comments/$id/$title'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   RSubredditSortRoute: typeof RSubredditSortRoute
+  RSubredditCommentsIdTitleRoute: typeof RSubredditCommentsIdTitleRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +80,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RSubredditSortRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/r/$subreddit/comments/$id/$title': {
+      id: '/r/$subreddit/comments/$id/$title'
+      path: '/r/$subreddit/comments/$id/$title'
+      fullPath: '/r/$subreddit/comments/$id/$title'
+      preLoaderRoute: typeof RSubredditCommentsIdTitleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   RSubredditSortRoute: RSubredditSortRoute,
+  RSubredditCommentsIdTitleRoute: RSubredditCommentsIdTitleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
