@@ -13,6 +13,7 @@ import {
   Filler,
 } from "chart.js";
 import timeAgo from "../../utils/timeAgo";
+import { CommentActivityChart } from "../CommentActivityChart/CommentActivityChart";
 
 ChartJS.register(
   LineElement,
@@ -26,6 +27,8 @@ ChartJS.register(
 );
 
 export const Post = ({ post, comments }) => {
+  console.log(comments);
+
   return (
     <div className="my-0 w-full">
       <Card>
@@ -49,6 +52,7 @@ export const Post = ({ post, comments }) => {
             <ExternalLinkIcon color="#9CA4CA" className="w-5 h-5 " />
           </a>
         </Flex>
+        <CommentActivityChart comments={comments} />
       </Card>
     </div>
   );
