@@ -9,8 +9,8 @@ export function estimateVotes(score: number, upvoteRatio: number) {
     const tiny = score > 0 ? 1e-6 : -1e-6;
     const R2 = Math.min(0.999999, Math.max(0.000001, R + tiny));
     const T = score / (2 * R2 - 1);
-    let U = R2 * T;
-    let D = T - U;
+    const U = R2 * T;
+    const D = T - U;
     let Ui = Math.round(U);
     let Di = Ui - score;
     if (Di < 0) {
@@ -21,8 +21,8 @@ export function estimateVotes(score: number, upvoteRatio: number) {
   }
 
   const T = score / twoRminus1;
-  let U = R * T;
-  let D = (1 - R) * T;
+  const U = R * T;
+  const D = (1 - R) * T;
 
   let Ui = Math.round(U);
   let Di = Ui - score;
