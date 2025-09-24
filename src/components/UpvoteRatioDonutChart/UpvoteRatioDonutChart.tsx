@@ -71,7 +71,8 @@ export const UpvoteRatioDonutChart = ({
           style={{ fontSize: 12, opacity: 0.7, marginTop: 8 }}
         >
           Note: With score 0, it is not possible to infer unique
-          Upvotes/Downvotes. They are shown with its percentual representation.
+          Upvotes/Downvotes. They are shown with its percentual representation
+          of the upvote ratio.
         </p>
       )}
     </div>

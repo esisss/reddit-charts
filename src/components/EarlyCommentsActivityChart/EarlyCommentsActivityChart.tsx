@@ -12,6 +12,7 @@ import {
   type TooltipItem,
 } from "chart.js";
 import { useMemo, useState } from "react";
+import { millisecondsToHours } from "date-fns";
 import { Button, Text } from "@radix-ui/themes";
 import type { CommentData, PostData } from "../../types/reddit";
 
@@ -236,6 +237,11 @@ export const EarlyCommentsActivityChart = ({
                   size="1"
                   variant={timeWindow === index ? "solid" : "soft"}
                   onClick={() => setTimeWindow(index)}
+                  disabled={
+                    window.hours >
+                    millisecondsToHours(Date.now() - post.created_utc * 1000) /
+                      0.5
+                  }
                   className="text-xs"
                 >
                   {window.hours}h
