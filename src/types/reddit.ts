@@ -10,6 +10,7 @@ export interface PostData {
   selftext?: string;
   is_self: boolean;
   thumbnail?: string;
+  upvote_ratio?: number;
   preview?: {
     images: Array<{
       source: {

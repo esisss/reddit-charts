@@ -3,6 +3,7 @@ import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { EarlyCommentsActivityChart } from "../EarlyCommentsActivityChart/EarlyCommentsActivityChart";
 import timeAgo from "../../utils/timeAgo";
 import type { PostData, CommentData } from "../../types/reddit";
+import { UpvoteRatioDonutChart } from "../UpvoteRatioDonutChart/UpvoteRatioDonutChart";
 
 export const Post = ({
   post,
@@ -35,8 +36,13 @@ export const Post = ({
               <ExternalLinkIcon color="#9CA4CA" className="w-5 h-5" />
             </a>
           </Flex>
-
-          <EarlyCommentsActivityChart comments={comments} post={post} />
+          <div className="flex flex-col justify-between items-center gap-4">
+            <EarlyCommentsActivityChart comments={comments} post={post} />
+            <UpvoteRatioDonutChart
+              score={post?.score || 0}
+              upvoteRatio={post?.upvote_ratio || 0}
+            />
+          </div>
         </Flex>
       </Card>
     </div>

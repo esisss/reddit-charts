@@ -190,7 +190,7 @@ export const EarlyCommentsActivityChart = ({
           color: "#9CA4CA",
         },
         grid: {
-          display: true,
+          display: false,
         },
         ticks: {
           color: "#9CA4CA",
@@ -217,7 +217,7 @@ export const EarlyCommentsActivityChart = ({
     },
   };
   return (
-    <div className="h-64 w-full">
+    <div className="h-64 w-full my-10">
       {chartData.labels.length > 0 && (
         <div className="mt-4">
           <div className="flex justify-between items-center mb-2">
