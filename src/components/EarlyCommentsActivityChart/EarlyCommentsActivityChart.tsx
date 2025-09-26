@@ -26,7 +26,7 @@ ChartJS.register(
   Filler,
 );
 
-// Time window presets in hours
+//presets in hours
 
 const TIME_WINDOWS = [
   { hours: 12, intervals: 6 },
@@ -53,13 +53,13 @@ const processCommentData = (
       commentCounts: [],
     };
 
-  // Filter for top-level comments (those that are direct replies to the post)
+  //filter for top-level comments (direct replies to the post)
   const topLevelComments = comments.filter(
     (comment) =>
       comment?.data?.created_utc && comment?.data?.parent_id?.startsWith("t3_"), // t3_ prefix indicates a post (not a comment)
   );
 
-  // Sort by creation time
+  //sort by creation time
   const validComments = topLevelComments.sort(
     (a, b) => a.data.created_utc - b.data.created_utc,
   );
@@ -78,7 +78,7 @@ const processCommentData = (
   );
   const intervalMs = (hoursToDisplay * 60 * 60 * 1000) / timeIntervals;
 
-  // Create time intervals
+  //create time intervals
   const timeIntervalsArray = [];
   const intervalStarts = [];
   for (let i = 0; i <= timeIntervals; i++) {
@@ -88,17 +88,17 @@ const processCommentData = (
     intervalStarts.push(time.getTime());
   }
 
-  // Initialize arrays for storing comment counts
+  //initialize arrays for storing comment counts
   const commentCounts = new Array(timeIntervals + 1).fill(0);
   const cumulativeCounts = new Array(timeIntervals + 1).fill(0);
 
-  // Count comments in each interval
+  //count comments in each interval
   validComments.forEach((comment) => {
     const commentTime: Date = new Date(comment.data.created_utc * 1000);
-    // Skip comments after our display window
+    //skip comments after our display window
     if (commentTime > endTime) return;
 
-    // Find which interval this comment belongs to
+    //find which interval this comment belongs to
     const hoursSincePost =
       (commentTime.getTime() - postTime.getTime()) / (1000 * 60 * 60);
     const intervalIndex = Math.min(
@@ -111,7 +111,7 @@ const processCommentData = (
     }
   });
 
-  // Calculate cumulative counts
+  //calculate cumulative counts
   for (let i = 1; i <= timeIntervals; i++) {
     cumulativeCounts[i] = cumulativeCounts[i - 1] + commentCounts[i];
   }
@@ -130,7 +130,7 @@ export const EarlyCommentsActivityChart = ({
   comments: CommentData[];
   post: PostData;
 }) => {
-  const [timeWindow, setTimeWindow] = useState(0); // Default to first time window (12h)
+  const [timeWindow, setTimeWindow] = useState(0); //default to first time window (12h)
   const { hours: hoursToDisplay, intervals: timeIntervals } =
     TIME_WINDOWS[timeWindow];
 
@@ -219,7 +219,7 @@ export const EarlyCommentsActivityChart = ({
   };
   return (
     <div className="h-64 w-full my-10">
-      {chartData.labels.length > 0 && (
+      {chartData.labels.length > 0 ? (
         <div className="mt-4">
           <div className="flex justify-between items-center mb-2">
             <div>
@@ -252,6 +252,11 @@ export const EarlyCommentsActivityChart = ({
           <div className="h-64 w-full">
             <Line data={chartData} options={chartOptions} />
           </div>
+        </div>
+      ) : (
+        <div className="h-64 w-full flex flex-col items-center justify-center">
+          <img className="w-16 h-16 my-5" src="/reddit.webp" alt="reddit" />
+          <p className="text-gray-500">This comment thread is empty</p>
         </div>
       )}
     </div>
