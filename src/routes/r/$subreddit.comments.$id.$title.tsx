@@ -12,7 +12,7 @@ export const Route = createFileRoute("/r/$subreddit/comments/$id/$title")({
       queryKey: ["subreddit", subreddit, "comments", id, title],
       queryFn: async () => {
         const res = await fetch(
-          `https://www.reddit.com/r/${subreddit}/comments/${id}.json?limit=100&raw_json=1`,
+          `https://www.reddit.com/r/${subreddit}/comments/${id}.json?limit=100&depth=5&raw_json=1`,
         );
         const data = await res.json();
         return data;

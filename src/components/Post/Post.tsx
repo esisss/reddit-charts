@@ -4,6 +4,7 @@ import { EarlyCommentsActivityChart } from "../EarlyCommentsActivityChart/EarlyC
 import timeAgo from "../../utils/timeAgo";
 import type { PostData, CommentData } from "../../types/reddit";
 import { UpvoteRatioDonutChart } from "../UpvoteRatioDonutChart/UpvoteRatioDonutChart";
+import { DepthDistributionChart } from "../DepthDistributionChart/DepthDistributionChart";
 
 export const Post = ({
   post,
@@ -42,6 +43,7 @@ export const Post = ({
               score={post?.score || 0}
               upvoteRatio={post?.upvote_ratio || 0}
             />
+            <DepthDistributionChart comments={comments} />
           </div>
         </Flex>
       </Card>

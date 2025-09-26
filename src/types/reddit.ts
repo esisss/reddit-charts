@@ -28,6 +28,7 @@ export interface PostData {
 }
 
 export interface CommentData {
+  kind: string;
   data: {
     parent_id: string;
     id: string;
@@ -35,16 +36,7 @@ export interface CommentData {
     body: string;
     score: number;
     created_utc: number;
-    replies?:
-      | {
-          data?: {
-            children: Array<{
-              kind: string;
-              data: CommentData;
-            }>;
-          };
-        }
-      | "";
+    replies?: { kind: string; data?: { children: CommentData[] } } | "";
     is_submitter?: boolean;
     depth: number;
   };
