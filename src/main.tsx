@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -34,7 +34,9 @@ if (!rootElement.innerHTML) {
           radius="large"
           scaling="100%"
         >
-          <RouterProvider router={router} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <RouterProvider router={router} />
+          </Suspense>
         </Theme>
       </QueryClientProvider>
     </React.StrictMode>,

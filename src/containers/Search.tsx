@@ -2,7 +2,11 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { PostSortingFilter } from "../components/PostSortingFilter/PostSortingFilter";
 import { SearchBar } from "../components/SearchBar";
 import { useSearchStore } from "../context/useSearchStore";
-import { useLocation, useNavigate } from "@tanstack/react-router";
+import {
+  useLocation,
+  useNavigate,
+  useRouterState,
+} from "@tanstack/react-router";
 
 export const Search = () => {
   const {
@@ -18,6 +22,8 @@ export const Search = () => {
     navigate({ to: `/r/${searchInputValue}/${searchSortBy}` });
   };
   const location = useLocation();
+  const routerState = useRouterState();
+  const isNavigating = routerState.status === "pending";
   return (
     <form onSubmit={handleSearch} className="w-full max-w-2xl space-y-4">
       <div className="flex flex-col items-center gap-2">
@@ -27,7 +33,10 @@ export const Search = () => {
           <div className="flex flex-col md:flex-row justify-center items-center gap-4 w-full md:max-w-[616px]">
             <div
               className={`transition-opacity duration-300 w-full max-w-[300px] ${
-                !dropdownOpen && searchCategory !== "u/"
+                !dropdownOpen &&
+                searchCategory !== "u/" &&
+                location.pathname.split("/")[3] !== "comments" &&
+                !isNavigating
                   ? "opacity-100"
                   : "opacity-0 hidden"
               }`}
