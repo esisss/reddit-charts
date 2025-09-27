@@ -34,9 +34,7 @@ if (!rootElement.innerHTML) {
           radius="large"
           scaling="100%"
         >
-          <Suspense fallback={<div>Loading...</div>}>
-            <RouterProvider router={router} />
-          </Suspense>
+          <RouterProvider router={router} />
         </Theme>
       </QueryClientProvider>
     </React.StrictMode>,
