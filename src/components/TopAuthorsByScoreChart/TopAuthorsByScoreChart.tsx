@@ -8,6 +8,10 @@ import {
   Tooltip,
   Legend,
   type ChartOptions,
+  BarController,
+  LineController,
+  PointElement,
+  LineElement,
 } from "chart.js";
 import { Card, Text } from "@radix-ui/themes";
 import { getTopAuthorsByScore } from "../../utils/getTopAuthorsByScore";
@@ -21,6 +25,10 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  BarController,
+  LineController,
+  PointElement,
+  LineElement,
 );
 
 interface TopAuthorsByScoreChartProps {
