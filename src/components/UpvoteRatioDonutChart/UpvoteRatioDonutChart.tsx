@@ -41,12 +41,15 @@ export const UpvoteRatioDonutChart = ({
             Upvote Ratio
           </Text>
         </div>
-        <div className="w-full max-w-2xl mx-auto h-[23rem]">
+        <div className="w-full max-w-2xl mx-auto h-64 md:h-80">
           <Doughnut
             options={{
               maintainAspectRatio: false,
               responsive: true,
               plugins: {
+                legend: {
+                  position: "right" as const,
+                },
                 tooltip: {
                   callbacks: {
                     label: (ctx) => {

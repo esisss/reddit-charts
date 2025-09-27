@@ -70,7 +70,11 @@ export const DepthDistributionChart = ({
       tooltip: {
         callbacks: {
           label: (ctx) => {
-            return `${ctx.label}: ${Number(ctx.raw).toLocaleString("en-US")}`;
+            const percentage = (
+              (Number(ctx.raw) / depthCounts.reduce((a, b) => a + b, 0)) *
+              100
+            ).toFixed(1);
+            return `${ctx.label}: ${Number(ctx.raw).toLocaleString("en-US")} (${percentage}%)`;
           },
         },
       },
@@ -91,7 +95,7 @@ export const DepthDistributionChart = ({
                 Top-Level Comments Depth Distribution
               </Text>
             </div>
-            <div className="min-h-64 w-full max-w-2xl mx-auto">
+            <div className="h-64 md:h-80 w-full max-w-2xl mx-auto">
               <Doughnut options={options} data={data} />
             </div>
             <div className="mt-4 text-sm text-gray-500">

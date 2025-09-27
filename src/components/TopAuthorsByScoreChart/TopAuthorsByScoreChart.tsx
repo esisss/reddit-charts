@@ -1,4 +1,4 @@
-import { Bar } from "react-chartjs-2";
+import { Chart } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -58,7 +58,7 @@ export const TopAuthorsByScoreChart = ({
     ],
   };
 
-  const options: ChartOptions<"bar"> = {
+  const options: ChartOptions<"bar" | "line"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -110,7 +110,7 @@ export const TopAuthorsByScoreChart = ({
       </Text>
       <div className="h-96 w-full">
         {topAuthors.length > 0 ? (
-          <Bar data={data} options={options} />
+          <Chart type="bar" data={data} options={options} />
         ) : (
           <div className="h-full w-full flex items-center justify-center text-gray-500">
             no comments available

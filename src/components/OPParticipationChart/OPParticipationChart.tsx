@@ -61,7 +61,7 @@ export const OPParticipationChart = ({
   return (
     <Card className="w-full max-w-2xl p-4">
       <Text color="gray" size="2" className="mb-4">
-        Comment Participation
+        OP Comment Participation
       </Text>
       <div className="h-64 md:h-80">
         <Doughnut data={data} options={options} />
