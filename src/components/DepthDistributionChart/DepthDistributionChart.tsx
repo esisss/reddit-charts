@@ -7,40 +7,12 @@ import {
   LinearScale,
   Tooltip,
   Legend,
+  type ChartOptions,
 } from "chart.js";
-import { Text } from "@radix-ui/themes";
+import { Card, Text } from "@radix-ui/themes";
+import { countCommentDepths } from "../../utils/countCommentDepths";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
-
-const countCommentDepths = (comments: CommentData[]): number[] => {
-  // Initialize an array to hold counts for depths 0-5+
-  const depthCounts = [0, 0, 0, 0, 0, 0];
-
-  const processComment = (comment: CommentData, depth: number = 0) => {
-    // Cap depth at 5+ for the chart
-    const depthIndex = Math.min(depth, 5);
-    // Recursively process replies
-    const replies = comment.data.replies;
-    if (replies && typeof replies !== "string" && replies.data?.children) {
-      replies.data.children.forEach((reply) => {
-        if (reply.kind === "t1") {
-          // t1 is the kind for comments
-          processComment(reply, depth + 1);
-        }
-      });
-    } else {
-      depthCounts[depthIndex]++;
-    }
-  };
-
-  // Process all top-level comments
-  comments.forEach((comment) => {
-    if (comment.kind === "t1") {
-      processComment(comment, 0);
-    }
-  });
-  return depthCounts;
-};
 
 export const DepthDistributionChart = ({
   comments = [],
@@ -48,7 +20,6 @@ export const DepthDistributionChart = ({
   comments: CommentData[];
 }) => {
   const depthCounts = countCommentDepths(comments);
-  console.log(depthCounts);
   const data = {
     labels: [
       "0 - Depth",
@@ -89,42 +60,58 @@ export const DepthDistributionChart = ({
       },
     ],
   };
-
+  const options: ChartOptions<"doughnut"> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "right" as const,
+      },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => {
+            return `${ctx.label}: ${Number(ctx.raw).toLocaleString("en-US")}`;
+          },
+        },
+      },
+    },
+  };
   return (
-    <div className="w-full my-10 h-full">
-      {comments.length === 0 ? (
-        <div className="h-64 w-full flex flex-col items-center justify-center">
-          <img className="w-16 h-16 my-5" src="/reddit.webp" alt="reddit" />
-          <p className="text-gray-500">This comment thread is empty</p>
-        </div>
-      ) : (
-        <div>
+    <Card className="w-full max-w-2xl">
+      <div className="w-full  ">
+        {comments.length === 0 ? (
+          <div className="h-64 w-full flex flex-col items-center justify-center">
+            <img className="w-16 h-16 my-5" src="/reddit.webp" alt="reddit" />
+            <p className="text-gray-500">This comment thread is empty</p>
+          </div>
+        ) : (
           <div>
-            <Text as="div" size="2" color="gray" className="mb-1">
-              Top-Level Comments Depth Distribution
-            </Text>
+            <div>
+              <Text as="div" size="2" color="gray" className="mb-1">
+                Top-Level Comments Depth Distribution
+              </Text>
+            </div>
+            <div className="min-h-64 w-full max-w-2xl mx-auto">
+              <Doughnut options={options} data={data} />
+            </div>
+            <div className="mt-4 text-sm text-gray-500">
+              <p>Total comments: {depthCounts.reduce((a, b) => a + b, 0)}</p>
+              <div className="flex flex-col md:flex-row wrap-break-word gap-2">
+                {depthCounts.map((count, index) => (
+                  <p key={index}>
+                    {index} Level of depth: {count} (
+                    {(
+                      (count / depthCounts.reduce((a, b) => a + b, 0)) *
+                      100
+                    ).toFixed(2)}
+                    %)
+                  </p>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="max-w-[75%] mx-auto">
-            <Doughnut
-              options={{
-                responsive: true,
-                plugins: {
-                  tooltip: {
-                    callbacks: {
-                      label: (ctx) => {
-                        return `${ctx.label}: ${Number(ctx.raw).toLocaleString(
-                          "en-US",
-                        )}`;
-                      },
-                    },
-                  },
-                },
-              }}
-              data={data}
-            />
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </Card>
   );
 };

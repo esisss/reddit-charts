@@ -13,7 +13,7 @@ import {
 } from "chart.js";
 import { useMemo, useState } from "react";
 import { millisecondsToHours } from "date-fns";
-import { Button, Text } from "@radix-ui/themes";
+import { Button, Card, Text } from "@radix-ui/themes";
 import type { CommentData, PostData } from "../../types/reddit";
 
 ChartJS.register(
@@ -218,47 +218,51 @@ export const EarlyCommentsActivityChart = ({
     },
   };
   return (
-    <div className="h-64 w-full my-10">
-      {chartData.labels.length > 0 ? (
-        <div className="mt-4">
-          <div className="flex justify-between items-center mb-2">
-            <div>
-              <Text as="div" size="2" color="gray" className="mb-1">
-                Early Top Comment Activity
-              </Text>
-              <Text as="div" size="1" color="gray" className="opacity-70">
-                {chartData.totalTopLevelComments} early top-level comments
-              </Text>
+    <Card className="w-full max-w-2xl">
+      <div className="h-64 w-full my-10">
+        {chartData.labels.length > 0 ? (
+          <div className="mt-4">
+            <div className="flex justify-between items-center mb-2">
+              <div>
+                <Text as="div" size="2" color="gray" className="mb-1">
+                  Early Top Comment Activity
+                </Text>
+                <Text as="div" size="1" color="gray" className="opacity-70">
+                  {chartData.totalTopLevelComments} early top-level comments
+                </Text>
+              </div>
+              <div className="flex gap-2">
+                {TIME_WINDOWS.map((window, index) => (
+                  <Button
+                    key={window.hours}
+                    size="1"
+                    variant={timeWindow === index ? "solid" : "soft"}
+                    onClick={() => setTimeWindow(index)}
+                    disabled={
+                      window.hours >
+                      millisecondsToHours(
+                        Date.now() - post.created_utc * 1000,
+                      ) /
+                        0.5
+                    }
+                    className="text-xs"
+                  >
+                    {window.hours}h
+                  </Button>
+                ))}
+              </div>
             </div>
-            <div className="flex gap-2">
-              {TIME_WINDOWS.map((window, index) => (
-                <Button
-                  key={window.hours}
-                  size="1"
-                  variant={timeWindow === index ? "solid" : "soft"}
-                  onClick={() => setTimeWindow(index)}
-                  disabled={
-                    window.hours >
-                    millisecondsToHours(Date.now() - post.created_utc * 1000) /
-                      0.5
-                  }
-                  className="text-xs"
-                >
-                  {window.hours}h
-                </Button>
-              ))}
+            <div className="h-64 w-full">
+              <Line data={chartData} options={chartOptions} />
             </div>
           </div>
-          <div className="h-64 w-full">
-            <Line data={chartData} options={chartOptions} />
+        ) : (
+          <div className="h-64 w-full flex flex-col items-center justify-center">
+            <img className="w-16 h-16 my-5" src="/reddit.webp" alt="reddit" />
+            <p className="text-gray-500">This comment thread is empty</p>
           </div>
-        </div>
-      ) : (
-        <div className="h-64 w-full flex flex-col items-center justify-center">
-          <img className="w-16 h-16 my-5" src="/reddit.webp" alt="reddit" />
-          <p className="text-gray-500">This comment thread is empty</p>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </Card>
   );
 };

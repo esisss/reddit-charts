@@ -5,6 +5,8 @@ import timeAgo from "../../utils/timeAgo";
 import type { PostData, CommentData } from "../../types/reddit";
 import { UpvoteRatioDonutChart } from "../UpvoteRatioDonutChart/UpvoteRatioDonutChart";
 import { DepthDistributionChart } from "../DepthDistributionChart/DepthDistributionChart";
+import { OPParticipationChart } from "../OPParticipationChart/OPParticipationChart";
+import { TopAuthorsByScoreChart } from "../TopAuthorsByScoreChart/TopAuthorsByScoreChart";
 
 export const Post = ({
   post,
@@ -44,6 +46,8 @@ export const Post = ({
               upvoteRatio={post?.upvote_ratio || 0}
             />
             <DepthDistributionChart comments={comments} />
+            <OPParticipationChart comments={comments} post={post} />
+            <TopAuthorsByScoreChart comments={comments} limit={10} />
           </div>
         </Flex>
       </Card>
