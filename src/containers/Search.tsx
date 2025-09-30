@@ -23,7 +23,9 @@ export const Search = () => {
   };
   const location = useLocation();
   const routerState = useRouterState();
-  const isNavigating = routerState.status === "pending";
+  const sortDisabled =
+    routerState.status === "pending" ||
+    location.pathname.split("/")[3] === "comments";
   return (
     <form onSubmit={handleSearch} className="w-full max-w-2xl space-y-4">
       <div className="flex flex-col items-center gap-2">
@@ -33,15 +35,13 @@ export const Search = () => {
           <div className="flex flex-col md:flex-row justify-center items-center gap-4 w-full md:max-w-[616px]">
             <div
               className={`transition-opacity duration-300 w-full max-w-[300px] ${
-                !dropdownOpen &&
-                searchCategory !== "u/" &&
-                location.pathname.split("/")[3] !== "comments" &&
-                !isNavigating
+                !dropdownOpen && searchCategory !== "u/"
                   ? "opacity-100"
                   : "opacity-0 hidden"
               }`}
             >
               <PostSortingFilter
+                disabled={sortDisabled}
                 value={searchSortBy}
                 onValueChange={(value) => {
                   if (location.pathname.split("/")[1] === "r") {
