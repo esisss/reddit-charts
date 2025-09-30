@@ -2,6 +2,8 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import * as z from "zod";
 import { Search } from "../../containers/Search";
 import { FeedPost, type PostData } from "../../components/FeedPost/FeedPost";
+import { Card, Flex, Heading, Text } from "@radix-ui/themes";
+import { Error } from "../../components/Error/Error";
 const subredditSchema = z.string().min(1);
 const sortSchema = z.enum(["hot", "new", "top", "rising", "best"]);
 
@@ -33,19 +35,15 @@ export const Route = createFileRoute("/r/$subreddit/$sort")({
             `https://www.reddit.com/r/${subreddit}/${sort}.json?limit=50`,
           );
           return res.json();
-        } catch (error) {
-          console.error(
-            `Error fetching data from r/${subreddit}/${sort}`,
-            error,
-          );
-          throw error;
+        } catch {
+          throw new Error("Failed to fetch data");
         }
       },
     });
     return data;
   },
   errorComponent: () => {
-    return <div>Invalid subreddit or sort option</div>;
+    return <Error />;
   },
 });
 
