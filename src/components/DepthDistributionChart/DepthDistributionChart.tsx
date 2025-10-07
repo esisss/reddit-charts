@@ -85,7 +85,11 @@ export const DepthDistributionChart = ({
       <div className="w-full  ">
         {comments.length === 0 ? (
           <div className="h-64 w-full flex flex-col items-center justify-center">
-            <img className="w-16 h-16 my-5" src="/reddit.webp" alt="reddit" />
+            <img
+              className="w-16 h-16 my-5"
+              src="/reddit-negative.png"
+              alt="reddit"
+            />
             <p className="text-gray-500">This comment thread is empty</p>
           </div>
         ) : (
