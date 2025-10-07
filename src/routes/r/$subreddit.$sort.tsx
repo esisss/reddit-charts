@@ -4,7 +4,7 @@ import { Search } from "../../containers/Search";
 import { FeedPost, type PostData } from "../../components/FeedPost/FeedPost";
 import { Error as ErrorComponent } from "../../components/Error/Error";
 import { Loading } from "../../components/Loading/Loading";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useInView } from "../../hooks/useInView";
 import { useInfiniteQuery } from "@tanstack/react-query";
 const subredditSchema = z.string().min(1);
