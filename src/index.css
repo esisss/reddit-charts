@@ -1,10 +1,13 @@
 @import "tailwindcss";
 @import "@radix-ui/themes/styles.css";
 
+* {
+  background-color: var(--color-gray-900);
+}
 #root {
   margin: 0;
   padding: 0;
-  background-color: #101828;
+  background-color: var(--color-gray-900);
   max-width: 100vw;
   overflow-x: hidden;
 }
